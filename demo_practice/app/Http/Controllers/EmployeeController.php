@@ -13,7 +13,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        //
+        return "<h1>Index Page</h1>";
     }
 
     /**
