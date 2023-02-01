@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\StudentController;
 use App\PaymentService\PaymentServiceInterface;
 use Illuminate\Support\Facades\Route;
 
@@ -50,4 +51,8 @@ Route::group(['middleware' => 'throttle:10,1','prefix' => 'users'],function(){
     Route::get('/aboutUs',function(){
         return "About Us Page";
     })->name('aboutUs');
+});
+
+Route::group(['middleware' => 'throttle:10,1','prefix' => 'students'],function(){
+    Route::get('/index',[StudentController::class,'index']);
 });
