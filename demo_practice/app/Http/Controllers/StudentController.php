@@ -13,7 +13,12 @@ class StudentController extends Controller
      */
     public function index()
     {
-        //
+        $data = array (
+            'id' => 123,
+            'sname' => 'abc',
+            'grade' => 'a'
+        );
+        return view('index')->with($data);
     }
 
     /**
