@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\StudentController;
 use App\PaymentService\PaymentServiceInterface;
 use Illuminate\Support\Facades\Route;
@@ -57,3 +58,6 @@ Route::group(['middleware' => 'throttle:10,1'],function(){
     Route::resource('students',StudentController::class);
 });
 
+Route::group(['middleware'=>'throttle:10,1'],function(){
+    Route::resource('employees',EmployeeController::class);
+});
