@@ -53,6 +53,7 @@ Route::group(['middleware' => 'throttle:10,1','prefix' => 'users'],function(){
     })->name('aboutUs');
 });
 
-Route::group(['middleware' => 'throttle:10,1','prefix' => 'students'],function(){
-    Route::get('/index',[StudentController::class,'index']);
+Route::group(['middleware' => 'throttle:10,1'],function(){
+    Route::resource('students',StudentController::class);
 });
+
