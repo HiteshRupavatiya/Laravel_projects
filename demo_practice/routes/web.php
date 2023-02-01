@@ -61,3 +61,7 @@ Route::group(['middleware' => 'throttle:10,1'],function(){
 Route::group(['middleware'=>'throttle:10,1'],function(){
     Route::resource('employees',EmployeeController::class);
 });
+
+Route::get('/page',function(){
+    return view('layouts.myFile');
+});
