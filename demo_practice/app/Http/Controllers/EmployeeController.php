@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\employee;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -13,7 +14,8 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        return "<h1>Index Page</h1>";
+        $employees_data = employee::get();
+        return view('employees.index');
     }
 
     /**
