@@ -8,13 +8,31 @@
     <title>Employee Data</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        select{
+            background: #fff;
+            padding: 9px;
+            justify-content: center;
+            border: 2px light dark(rgb(228, 224, 224));
+            border-radius: 5px;
+            margin: 0px;
+            font-size: 1rem;
+        }
+        select:focus{
+            border: green;
+        }
+        option{
+            font-family: inherit;
+            background: black;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container">
         <h1>Employee Form</h1>
         <br>
-        <form action="{{url('/')}}/employees/store" method="post">
+        <form action="{{route('employees.store')}}" method="post">
             @csrf
             @method('post')
             <div class="mb-3 row">
@@ -33,7 +51,7 @@
                 <label for="Gender" class="col-sm-2 col-form-label">Employee Gender :</label>
                 <div class="col-sm-6">
                     <select name="gender" id="employeeGender">
-                        <option value="" disabled>-- Select Gender --</option>
+                        <option value="" disabled selected>-- Select Gender --</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                         <option value="Other">Other</option>

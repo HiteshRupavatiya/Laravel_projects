@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class EmployeeController extends Controller
 {
@@ -14,7 +15,7 @@ class EmployeeController extends Controller
      */
     public function index()
     {
-        $employees_data = employee::get();
+        $employees_data = employee::all();
         return view('employees.index',compact('employees_data'));
     }
 
@@ -36,13 +37,20 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
+
+        $request->validate([
+            'employeeName' => 'required|alpha|max:30',
+            'employeeAddress' => 'required',
+            'employeeBirthDate' => 'required|date',
+        ]);
+
         $employee = new employee;
         $employee->employee_name = $request['employeeName'];
         $employee->employee_address = $request['employeeAddress'];
         $employee->gender = $request['gender'];
         $employee->dob = $request['employeeBirthDate'];
         $employee->save();
-        return redirect()->back();
+        return redirect()->route('employees.index');
     }
 
     /**
@@ -62,9 +70,9 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        //
+    public function edit(employee $employee)
+    {   
+        return view('employees.edit',compact('employee'));
     }
 
     /**
@@ -74,9 +82,10 @@ class EmployeeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,employee $employee)
     {
-        //
+        $employee -> update($request->all());
+        return redirect()->route('employees.index');
     }
 
     /**
@@ -87,7 +96,8 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
+        // return $id;
         employee::find($id)->delete();
-        return redirect()->back();
+        return redirect()->route('employees.index');
     }
 }

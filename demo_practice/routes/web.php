@@ -59,17 +59,7 @@ Route::group(['middleware' => 'throttle:10,1'],function(){
     Route::resource('students',StudentController::class);
 });
 
-Route::get('employees/',[EmployeeController::class,'index'])->name('employee.index');
-
-Route::get('employees/create',[EmployeeController::class,'create'])->name('employee.create');
-
-Route::post('employees/store',[EmployeeController::class,'store'])->name('employee.store');
-
-Route::get('employees/{employee}',[EmployeeController::class,'update'])->name('employee.update');
-
-Route::put('employees/{employee}/edit',[EmployeeController::class,'edit'])->name('employee.edit');
-
-Route::delete('employees/{employee}/',[EmployeeController::class,'destroy'])->name('employee.destroy');
+Route::resource('employees',EmployeeController::class);
 
 Route::get('/page',function(){
     return view('layouts.myFile');
