@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\StudentController;
 use App\PaymentService\PaymentServiceInterface;
@@ -58,12 +59,17 @@ Route::group(['middleware' => 'throttle:10,1'],function(){
     Route::resource('students',StudentController::class);
 });
 
-Route::group(['middleware'=>'throttle:20,1'],function(){
-    Route::resource('employees',EmployeeController::class);
-    // Route::get('/',function(){
-    //     return view('employees.index');
-    // });
-});
+Route::get('employees/',[EmployeeController::class,'index'])->name('employee.index');
+
+Route::get('employees/create',[EmployeeController::class,'create'])->name('employee.create');
+
+Route::post('employees/store',[EmployeeController::class,'store'])->name('employee.store');
+
+Route::get('employees/{employee}',[EmployeeController::class,'update'])->name('employee.update');
+
+Route::put('employees/{employee}/edit',[EmployeeController::class,'edit'])->name('employee.edit');
+
+Route::delete('employees/{employee}/',[EmployeeController::class,'destroy'])->name('employee.destroy');
 
 Route::get('/page',function(){
     return view('layouts.myFile');
@@ -72,3 +78,4 @@ Route::get('/page',function(){
 Route::get('/message',function(){
     return view('message');
 });
+

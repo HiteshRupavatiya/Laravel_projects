@@ -15,7 +15,7 @@ class EmployeeController extends Controller
     public function index()
     {
         $employees_data = employee::get();
-        return view('employees.index');
+        return view('employees.index',compact('employees_data'));
     }
 
     /**
@@ -36,7 +36,13 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $employee = new employee;
+        $employee->employee_name = $request['employeeName'];
+        $employee->employee_address = $request['employeeAddress'];
+        $employee->gender = $request['gender'];
+        $employee->dob = $request['employeeBirthDate'];
+        $employee->save();
+        return redirect()->back();
     }
 
     /**
@@ -81,6 +87,7 @@ class EmployeeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        employee::find($id)->delete();
+        return redirect()->back();
     }
 }

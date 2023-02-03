@@ -19,7 +19,9 @@ return new class extends Migration
             $table->string('employee_address',60)->nullable();
             $table->enum('gender',["male","female","other"]);
             $table->date('dob');
+            $table->string('employee_image')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
