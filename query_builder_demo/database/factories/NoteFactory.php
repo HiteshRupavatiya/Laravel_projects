@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
@@ -17,7 +18,8 @@ class NoteFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => fake()->name(),
+            'employee_id' => rand(1,20),
         ];
     }
 }
