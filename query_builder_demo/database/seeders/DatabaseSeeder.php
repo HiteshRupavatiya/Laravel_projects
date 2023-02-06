@@ -4,8 +4,11 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Album;
+use App\Models\Artist;
 use App\Models\Employee;
 use App\Models\Note;
+use App\Models\Song;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -26,5 +29,12 @@ class DatabaseSeeder extends Seeder
         
         Employee::factory(10)->create();
         Note::factory(20)->create();
+
+        Artist::factory(5)->has(
+            Album::factory()->has(
+                Song::factory()->count(5)
+            )->count(2)
+        )->create();
+
     }
 }
