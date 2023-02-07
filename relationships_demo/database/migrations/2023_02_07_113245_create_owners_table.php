@@ -15,7 +15,10 @@ return new class extends Migration
     {
         Schema::create('owners', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->unsignedBigInteger('car_id');
             $table->timestamps();
+            $table->foreign('car_id')->references('id')->on('cars');
         });
     }
 
