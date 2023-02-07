@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\MobileController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,3 +26,11 @@ Route::get('addCustomers',[CustomerController::class,'add_customer']);
 Route::get('showMobile/{id}',[CustomerController::class,'show_customer']);
 
 Route::get('showCustomer/{id}',[MobileController::class,'show_customer']);
+
+Route::get('addAuthor',[AuthorController::class,'add_author']);
+
+Route::get('addPost/{id}',[PostController::class,'add_post']);
+
+Route::get('showPost/{id}',[PostController::class,'show_post']);
+
+Route::get('showAuthor/{id}',[AuthorController::class,'show_author']);
