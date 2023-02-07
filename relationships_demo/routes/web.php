@@ -3,10 +3,13 @@
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DeploymentController;
+use App\Http\Controllers\LanguagesController;
 use App\Http\Controllers\MechanicController;
 use App\Http\Controllers\MobileController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,4 +49,8 @@ Route::get('addOwner/{id}',[OwnerController::class,'add_owner']);
 
 Route::get('showOwner/{id}',[OwnerController::class,'show_owner']);
 
+Route::get('addProject',[ProjectController::class,'add_project']);
 
+Route::get('addLanguage/{id}',[LanguagesController::class,'add_language']);
+
+Route::get('addDeployment/{id}',[DeploymentController::class,'add_deployment']);

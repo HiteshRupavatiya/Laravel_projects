@@ -15,7 +15,10 @@ return new class extends Migration
     {
         Schema::create('deployments', function (Blueprint $table) {
             $table->id();
+            $table->string('work');
+            $table->unsignedBigInteger('language_id');
             $table->timestamps();
+            $table->foreign('language_id')->references('id')->on('languages');
         });
     }
 

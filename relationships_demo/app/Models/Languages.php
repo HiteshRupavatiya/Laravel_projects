@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Languages extends Model
 {
     use HasFactory;
+
+    public function deployment(){
+        return $this->hasMany(Deployment::class);
+    }
 }
