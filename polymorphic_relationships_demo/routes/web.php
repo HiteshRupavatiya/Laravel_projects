@@ -1,7 +1,10 @@
 <?php
 
+use App\Models\Comment;
 use App\Models\Doctor;
 use App\Models\Patient;
+use App\Models\Post;
+use App\Models\Video;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,4 +28,9 @@ Route::get('/morph_one',function(){
     dump($doctor->image);
 });
 
-
+Route::get('/morph_many',function(){
+    $post = Post::find(1);
+    $comment = Comment::find(1);
+    // $video = Video::find(1);
+    return $comment->body;
+});
