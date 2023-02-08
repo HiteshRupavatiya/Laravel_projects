@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Languages;
+use App\Models\Language;
 use App\Models\Project;
 use Illuminate\Http\Request;
 
-class LanguagesController extends Controller
+class LanguageController extends Controller
 {
     public function add_language($id){
         $project = Project::find($id);
-        $language = new Languages();
+        $language = new Language();
         $language->name = "Python";
         $project->environment()->save($language);
     }

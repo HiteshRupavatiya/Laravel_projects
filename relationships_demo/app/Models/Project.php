@@ -9,7 +9,11 @@ class Project extends Model
 {
     use HasFactory;
 
-    public function environment(){
-        return $this->hasMany(Languages::class);
+    public function language(){
+        return $this->hasMany(Language::class);
+    }
+
+    public function deployment(){
+        return $this->hasManyThrough(Deployment::class,Language::class);
     }
 }
