@@ -10,6 +10,8 @@ use App\Http\Controllers\MobileController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\SingerController;
+use App\Http\Controllers\SongController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -56,3 +58,11 @@ Route::get('addLanguage/{id}',[LanguageController::class,'add_language']);
 Route::get('addDeployment/{id}',[DeploymentController::class,'add_deployment']);
 
 Route::get('showDeployment/{id}',[DeploymentController::class,'show_deployment']);
+
+Route::get('addSong',[SongController::class,'add_song']);
+
+Route::get('addSinger',[SingerController::class,'add_singer']);
+
+Route::get('showSong/{id}',[SongController::class,'show_song']);
+
+Route::get('showSinger/{id}',[SingerController::class,'show_singer']);
