@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Doctor;
+use App\Models\Patient;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/morph_one',function(){
+    $doctor = Doctor::find(1);    
+    dump($doctor->name);
+    dump($doctor->image);
+});
+
+
