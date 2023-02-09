@@ -20,4 +20,8 @@ class Post extends Model
     public function oldestPostComment(){
         return $this->morphOne(Comment::class,'commentable')->oldestOfMany();
     }
+
+    public function tags(){
+        return $this->morphToMany(Tag::class,'taggable');
+    }
 }

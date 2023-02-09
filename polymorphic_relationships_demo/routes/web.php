@@ -4,6 +4,7 @@ use App\Models\Comment;
 use App\Models\Doctor;
 use App\Models\Patient;
 use App\Models\Post;
+use App\Models\Tag;
 use App\Models\Video;
 use Illuminate\Support\Facades\Route;
 
@@ -33,4 +34,10 @@ Route::get('/morph_many',function(){
     $comment = Comment::find(1);
     // $video = Video::find(1);
     return $comment->body;
+});
+
+Route::get('/morph_many_to_many',function(){
+    // $post = Post::find(1);
+    $video = Tag::find(1);
+    return $video;
 });
