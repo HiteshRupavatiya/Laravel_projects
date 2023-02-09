@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\StudentController;
 use App\Models\Comment;
 use App\Models\Doctor;
 use App\Models\Patient;
@@ -41,3 +42,7 @@ Route::get('/morph_many_to_many',function(){
     $video = Tag::find(1);
     return $video;
 });
+
+Route::get('/showStudents',[StudentController::class,'show']);
+
+Route::get('/addStudent',[StudentController::class,'add_student']);
