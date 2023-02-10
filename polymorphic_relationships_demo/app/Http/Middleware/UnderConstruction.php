@@ -3,7 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Exception;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class UnderConstruction
 {
@@ -16,6 +18,7 @@ class UnderConstruction
      */
     public function handle(Request $request, Closure $next)
     {
-        return $next($request);
+        throw new HttpException(503);
+        // return $next($request);
     }
-}
+}   
