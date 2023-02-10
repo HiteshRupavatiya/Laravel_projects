@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\UserController;
@@ -70,3 +71,5 @@ Route::middleware('construction')->group(function(){ // group middleware
 Route::get('/user/create',[UserController::class,'create']);
 
 Route::post('/user/store',[UserController::class,'add_user']);
+
+Route::get('/employee',[EmployeeController::class,'index']);
