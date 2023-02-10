@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\UserController;
 use App\Models\Comment;
 use App\Models\Doctor;
 use App\Models\Patient;
@@ -65,3 +66,7 @@ Route::middleware('construction')->group(function(){ // group middleware
 
     Route::get('/report',[ReportController::class,'show']);
 });
+
+Route::get('/user/create',[UserController::class,'create']);
+
+Route::post('/user/store',[UserController::class,'add_user']);
