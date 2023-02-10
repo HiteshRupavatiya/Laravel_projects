@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\StudentController;
 use App\Models\Comment;
 use App\Models\Doctor;
@@ -55,6 +56,4 @@ Route::get('/stock',function(){
     return view('stock');
 });
 
-Route::get('/report',function(){
-    return view('report');
-});
+Route::get('/report',[ReportController::class,'show']);
