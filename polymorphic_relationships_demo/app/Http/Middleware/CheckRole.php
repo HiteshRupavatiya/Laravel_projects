@@ -3,11 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Exception;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class UnderConstruction
+class CheckRole
 {
     /**
      * Handle an incoming request.
@@ -16,11 +14,11 @@ class UnderConstruction
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, $role)
     {
-        // dd($request->user);
-        // dd($next($request));
-        // return $next($request);
-        throw new HttpException(503);
+        if($role === 'guests'){
+            return redirect('/');
+        }
+        return $next($request);
     }
-}   
+}

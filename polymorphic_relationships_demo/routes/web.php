@@ -50,10 +50,18 @@ Route::get('/', function () {
 
 Route::get('/dashboard',function(){
     return view('dashboard');
-});
+})->middleware('role:guests'); // route middleware
 
-Route::get('/stock',function(){
-    return view('stock');
-});
+// Route::get('/stock',function(){
+//     return view('stock');
+// })->middleware('construction'); // route middleware
 
-Route::get('/report',[ReportController::class,'show']);
+// Route::get('/report',[ReportController::class,'show'])->middleware('construction'); // route middleware
+
+Route::middleware('construction')->group(function(){ // group middleware
+    Route::get('/stock',function(){
+        return view('stock');
+    });
+
+    Route::get('/report',[ReportController::class,'show']);
+});
