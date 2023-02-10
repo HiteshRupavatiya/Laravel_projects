@@ -20,10 +20,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::get('/morph_one',function(){
     $doctor = Doctor::find(1);    
     dump($doctor->name);
@@ -46,3 +42,19 @@ Route::get('/morph_many_to_many',function(){
 Route::get('/showStudents',[StudentController::class,'show']);
 
 Route::get('/addStudent',[StudentController::class,'add_student']);
+
+Route::get('/', function () {
+    return view('home');
+});
+
+Route::get('/dashboard',function(){
+    return view('dashboard');
+});
+
+Route::get('/stock',function(){
+    return view('stock');
+});
+
+Route::get('/report',function(){
+    return view('report');
+});
