@@ -1,26 +1,23 @@
 @extends('layouts.app')
+
 @section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-4 offset-md-4">
                 <div class="card form-holder">
                     <div class="card-body">
-                        <h1>Register</h1>
+                        <h1>Reset Password</h1>
                         @if (Session::has('error'))
                             <p class="text-danger">{{ Session::get('error') }}</p>
                         @endif
+                        @if (Session::has('success'))
+                            <p class="text-success">{{ Session::get('success') }}</p>
+                        @endif
 
-                        <form action="{{ route('register') }}" method="post">
+                        <form action="{{ route('submitResetPasswordForm') }}" method="post">
                             @csrf
+                            <input type="hidden" name="token" value="{{ $token }}">
                             {{-- @method('post') --}}
-                            <div class="form-group">
-                                <label for="">User Name</label>
-                                <input type="text" name="name" id="" class="form-control"
-                                    value="{{ old('name') }}">
-                                @if ($errors->has('name'))
-                                    <p class="text-danger">{{ $errors->first('name') }}</p>
-                                @endif
-                            </div>
                             <div class="form-group">
                                 <label for="">Email</label>
                                 <input type="email" name="email" id="" class="form-control"
@@ -39,15 +36,16 @@
                             </div>
                             <div class="form-group">
                                 <label for="">Confirm Password</label>
-                                <input type="password" name="password_confirmation" id="" class="form-control">
+                                <input type="password" name="confirm_password" id="" class="form-control"
+                                    value="{{ old('confirm_password') }}">
+                                @if ($errors->has('confirm_password'))
+                                    <p class="text-danger">{{ $errors->first('confirm_password') }}</p>
+                                @endif
                             </div>
-                            <div class="row">
-                                <div class="col-8 text-left">
-                                    <a href="{{ route('login') }}" class="btn btn-link">Already Have Account</a>
-                                </div>
-                                <div class="col-4 text-right">
-                                    <input type="submit" value="Register">
-                                </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">
+                                    Reset Password
+                                </button>
                             </div>
                         </form>
                     </div>

@@ -18,14 +18,22 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('login',[UserController::class,'index'])->name('login');
+Route::get('login', [UserController::class, 'index'])->name('login');
 
-Route::post('login',[UserController::class,'login'])->name('login');
+Route::post('login', [UserController::class, 'login'])->name('login');
 
-Route::get('register',[UserController::class,'register_view'])->name('register');
+Route::get('register', [UserController::class, 'register_view'])->name('register');
 
-Route::post('register',[UserController::class,'register'])->name('register');
+Route::post('register', [UserController::class, 'register'])->name('register');
 
-Route::get('home',[UserController::class,'home'])->name('home');
+Route::get('home', [UserController::class, 'home'])->name('home');
 
-Route::get('logout',[UserController::class,'logout'])->name('logout');
+Route::get('logout', [UserController::class, 'logout'])->name('logout');
+
+Route::get('forgotPassword', [UserController::class, 'showForgotPasswordForm'])->name('forgotPassword');
+
+Route::post('forgotPassword', [UserController::class, 'submitForgot_password'])->name('submitForgotPasswordForm');
+
+Route::get('resetPassword/{token}', [UserController::class, 'showResetPasswordForm'])->name('resetPassword');
+
+Route::post('resetPassword', [UserController::class, 'submitReset_password'])->name('submitResetPasswordForm');

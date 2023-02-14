@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -22,47 +26,52 @@ class UserController extends Controller
     }
 
     public function login(Request $request)
-    {  
+    {
         $request->validate([
-            'email' => 'required|email:rfc,dns',
-            'password' => 'required'    
+            'email' => 'required|email',
+            'password' => 'required'
         ]);
 
-        $credintials = $request->only('email','password');
+        $credintials = $request->only('email', 'password');
 
         if (Auth::attempt($credintials)) {
-            return redirect()->intended('home')->withSuccess("Signed in...");
+            return redirect('home')->withSuccess("Signed in...");
         }
 
-        return redirect('login')->withSuccess('Login creaditials are invalid...');
+        return redirect('login')->withError('Login creaditials are invalid...');
     }
 
     public function register(Request $request)
     {
         $request->validate([
-            'name' => 'required|alpha_num|max:30|unique:users,name',
-            'email' => 'required|email|unique:users,email:rfc,dns',
+            'name' => 'required|alpha_num|max:30|unique:users',
+            'email' => 'required|email|unique:users',
             'password' => 'required|min:6',
             'password_confirmation' => 'required|same:password'
         ]);
 
+        $data = $request->all();
+
         User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => $request->password
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'remember_token' => Str::random(10)
         ]);
 
         if (Auth::attempt($request->only('email', 'password'))) {
             return redirect('home');
         }
 
-        return redirect('register')->withSuccess('You Are Signed In...');
+        return redirect('login')->withSuccess('You Are Signed In...');
     }
 
     public function home()
-    {   
-        return view('home');       
-        // return redirect('login')->withError('You are not allowed to access');
+    {
+        if (Auth::check()) {
+            return view('home');
+        }
+        return redirect('login')->withError('You are not allowed to access');
     }
 
     public function logout()
@@ -70,5 +79,61 @@ class UserController extends Controller
         session()->flush();
         Auth::logout();
         return redirect('login');
+    }
+
+    public function showForgotPasswordForm()
+    {
+        return view('auth.forgot_password');
+    }
+
+    public function submitForgot_password(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users'
+        ]);
+
+        $token = Str::random(64);
+
+        DB::table('password_resets')->insert([
+            'email' => $request->email,
+            'token' => $token,
+            'created_at' => Carbon::now()
+        ]);
+
+        Mail::send('email.forgetPassword', ['token' => $token], function ($message) use ($request) {
+            $message->to($request->email);
+            $message->subject("Reset Password");
+        });
+
+        return back()->with('success', "Password Reset Link Successfully Send To Your Mail");
+    }
+
+    public function showResetPasswordForm($token)
+    {
+        return view('auth.reset_password',['token' => $token]);
+    }
+
+    public function submitReset_password(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users',
+            'password' => 'required|min:6',
+            'confirm_password' => 'required|same:password'
+        ]);
+
+        $updatePassword = DB::table('password_resets')->where([
+            'email' => $request->email,
+            'token' => $request->token
+        ])->first();
+
+        if(!$updatePassword){
+            return back()->withInput()->withError("Invalid Token!");
+        }
+
+        $user = User::where('email',$request->email)->update(['password' => Hash::make($request->password)]);
+
+        DB::table('password_resets')->where(['email' => $request->email])->delete();
+
+        return redirect('login')->withSuccess('Your Password Has Been Changed Successfully');
     }
 }
