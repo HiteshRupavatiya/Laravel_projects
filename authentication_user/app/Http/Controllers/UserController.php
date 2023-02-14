@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
+use function PHPUnit\Framework\isNull;
+
 class UserController extends Controller
 {
 
@@ -56,10 +58,18 @@ class UserController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'remember_token' => Str::random(10)
+            'remember_token' => Str::random(10),
+            'email_verification_code' => Str::random(40)
         ]);
 
-        if (Auth::attempt($request->only('email', 'password'))) {
+        $token = Str::random(64);
+
+        Mail::send('email.varifyAccount', ['token' => $token], function ($message) use ($request) {
+            $message->to($request->email);
+            $message->subject("Verify Your Account");
+        });
+
+        if (Auth::attempt($request->only('email', 'password','email_verified_at'))) {
             return redirect('home');
         }
 
@@ -110,7 +120,7 @@ class UserController extends Controller
 
     public function showResetPasswordForm($token)
     {
-        return view('auth.reset_password',['token' => $token]);
+        return view('auth.reset_password', ['token' => $token]);
     }
 
     public function submitReset_password(Request $request)
@@ -126,14 +136,38 @@ class UserController extends Controller
             'token' => $request->token
         ])->first();
 
-        if(!$updatePassword){
+        if (!$updatePassword) {
             return back()->withInput()->withError("Invalid Token!");
         }
 
-        $user = User::where('email',$request->email)->update(['password' => Hash::make($request->password)]);
+        $user = User::where('email', $request->email)->update(['password' => Hash::make($request->password)]);
 
         DB::table('password_resets')->where(['email' => $request->email])->delete();
 
         return redirect('login')->withSuccess('Your Password Has Been Changed Successfully');
+    }
+
+    public function verifyUser($token)
+    {
+
+        $user = User::where('email_verification_code', $token)->first();
+
+        if ($user) {
+            if($user->email_verified_at){
+                return redirect()->route('register')->with('error',"Already Verified");
+            }
+            else{
+                $user->update([
+                    'email_verified_at' => now()
+                ]);
+                return redirect('login')->with('error','Please Fill Login Details');
+            }
+            session()->flash('message', 'Invalid Login attempt');
+            return redirect()->route('login');
+        }
+        else{
+            return redirect('register')->with('error','Some Error');
+        }
+        return redirect()->route('login');
     }
 }
