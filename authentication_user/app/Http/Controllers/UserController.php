@@ -55,26 +55,20 @@ class UserController extends Controller
 
         $data = $request->all();
 
+        $token = Str::random(40);
+
         User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'remember_token' => Str::random(10),
-            'email_verification_code' => Str::random(40)
+            'email_verification_code' => $token
         ]);
-
-        $token = Str::random(64);
-
-        dispatch(new SendEmail($token,));
 
         Mail::send('email.varifyAccount', ['token' => $token], function ($message) use ($request) {
             $message->to($request->email);
             $message->subject("Verify Your Account");
         });
-
-        if (Auth::attempt($request->only('email', 'password','email_verified_at'))) {
-            return redirect('home');
-        }
 
         return redirect('login')->withSuccess('You Are Signed In...');
     }
@@ -121,9 +115,9 @@ class UserController extends Controller
 
     public function showResetPasswordForm($token)
     {
-        $user = User::where('reset_password_token',$token)->first();
-        if($user){
-            return view('auth.reset_password',compact('user'));
+        $user = User::where('reset_password_token', $token)->first();
+        if ($user) {
+            return view('auth.reset_password', compact('user'));
         }
         return back()->withError("Some Error Occured");
     }
@@ -135,7 +129,7 @@ class UserController extends Controller
             'confirm_password' => 'required|same:password'
         ]);
 
-        $user = User::where('email',$request->email)->first();
+        $user = User::where('email', $request->email)->first();
 
         $updatePassword = $user->update([
             'password' => Hash::make($request->password)
@@ -150,25 +144,19 @@ class UserController extends Controller
 
     public function verifyUser($token)
     {
-
         $user = User::where('email_verification_code', $token)->first();
-
         if ($user) {
-            if($user->email_verified_at){
-                return redirect()->route('register')->with('error',"Already Verified");
-            }
-            else{
+            if ($user->email_verified_at) {
+                return redirect()->route('login')->with('error', $user->email.' Already Verified');
+            } else {
                 $user->update([
-                    'email_verified_at' => now()
+                    'email_verified_at' => \Carbon\Carbon::now()
                 ]);
-                return redirect('login')->with('error','Please Fill Login Details');
+                return redirect('login')->with('success', 'Email Verified Successfully');
             }
-            session()->flash('message', 'Invalid Login attempt');
-            return redirect()->route('login');
+        } 
+        else {
+            return redirect('register')->with('error', 'Some Error');
         }
-        else{
-            return redirect('register')->with('error','Some Error');
-        }
-        return redirect()->route('login');
     }
 }
