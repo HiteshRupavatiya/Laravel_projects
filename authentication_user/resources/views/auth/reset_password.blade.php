@@ -16,15 +16,11 @@
 
                         <form action="{{ route('submitResetPasswordForm') }}" method="post">
                             @csrf
-                            <input type="hidden" name="token" value="{{ $token }}">
                             {{-- @method('post') --}}
                             <div class="form-group">
-                                <label for="">Email</label>
-                                <input type="email" name="email" id="" class="form-control"
-                                    value="{{ old('email') }}">
-                                @if ($errors->has('email'))
-                                    <p class="text-danger">{{ $errors->first('email') }}</p>
-                                @endif
+                                {{-- <label for="">Email</label> --}}
+                                <input type="hidden" name="email" id="" class="form-control"
+                                    value="{{ $user->email }}">
                             </div>
                             <div class="form-group">
                                 <label for="">Password</label>

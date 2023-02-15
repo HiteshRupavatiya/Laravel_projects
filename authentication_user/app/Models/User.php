@@ -22,7 +22,8 @@ class User extends Authenticatable
         'email',
         'password',
         'remember_token',
-        'email_verification_code'
+        'email_verification_code',
+        'reset_password_token'
     ];
 
     /**

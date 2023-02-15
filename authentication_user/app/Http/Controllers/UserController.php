@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SendEmail;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Session\Session;
@@ -64,6 +65,8 @@ class UserController extends Controller
 
         $token = Str::random(64);
 
+        dispatch(new SendEmail($token,));
+
         Mail::send('email.varifyAccount', ['token' => $token], function ($message) use ($request) {
             $message->to($request->email);
             $message->subject("Verify Your Account");
@@ -104,10 +107,8 @@ class UserController extends Controller
 
         $token = Str::random(64);
 
-        DB::table('password_resets')->insert([
-            'email' => $request->email,
-            'token' => $token,
-            'created_at' => Carbon::now()
+        DB::table('users')->update([
+            'reset_password_token' => $token,
         ]);
 
         Mail::send('email.forgetPassword', ['token' => $token], function ($message) use ($request) {
@@ -120,29 +121,29 @@ class UserController extends Controller
 
     public function showResetPasswordForm($token)
     {
-        return view('auth.reset_password', ['token' => $token]);
+        $user = User::where('reset_password_token',$token)->first();
+        if($user){
+            return view('auth.reset_password',compact('user'));
+        }
+        return back()->withError("Some Error Occured");
     }
 
     public function submitReset_password(Request $request)
     {
         $request->validate([
-            'email' => 'required|email|exists:users',
             'password' => 'required|min:6',
             'confirm_password' => 'required|same:password'
         ]);
 
-        $updatePassword = DB::table('password_resets')->where([
-            'email' => $request->email,
-            'token' => $request->token
-        ])->first();
+        $user = User::where('email',$request->email)->first();
+
+        $updatePassword = $user->update([
+            'password' => Hash::make($request->password)
+        ]);
 
         if (!$updatePassword) {
             return back()->withInput()->withError("Invalid Token!");
         }
-
-        $user = User::where('email', $request->email)->update(['password' => Hash::make($request->password)]);
-
-        DB::table('password_resets')->where(['email' => $request->email])->delete();
 
         return redirect('login')->withSuccess('Your Password Has Been Changed Successfully');
     }
