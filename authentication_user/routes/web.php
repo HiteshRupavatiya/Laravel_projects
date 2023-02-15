@@ -3,7 +3,12 @@
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\SendMailController;
 use App\Http\Controllers\UserController;
+use App\Mail\SendMarkDownMail;
+use App\Mail\SendTestMail;
+use App\Models\User;
+use Illuminate\Mail\Markdown;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -45,4 +50,9 @@ Route::get('varifyUser/{token}', [UserController::class, 'verifyUser'])->name('v
 
 Route::get('notification', [NotificationController::class, 'sendNotification'])->name('notification');
 
-Route::get('sendRegisterEmail',[SendMailController::class,'sendRegisterEmail'])->name('sendRegisterEmail');
+Route::get('sendRegisterEmail', [SendMailController::class, 'sendRegisterEmail'])->name('sendRegisterEmail');
+
+Route::get('/', function () {
+    Mail::to('harsh@gmail.com',"new user test")->send(new SendMarkDownMail());
+    echo "Mail sent";
+});
