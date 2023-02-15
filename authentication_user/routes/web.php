@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\SendMailController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -39,4 +41,8 @@ Route::get('resetPassword/{token}', [UserController::class, 'showResetPasswordFo
 
 Route::post('resetPassword', [UserController::class, 'submitReset_password'])->name('submitResetPasswordForm');
 
-Route::get('varifyUser/{token}',[UserController::class,'verifyUser'])->name('varifyingUser');
+Route::get('varifyUser/{token}', [UserController::class, 'verifyUser'])->name('varifyingUser');
+
+Route::get('notification', [NotificationController::class, 'sendNotification'])->name('notification');
+
+Route::get('sendRegisterEmail',[SendMailController::class,'sendRegisterEmail'])->name('sendRegisterEmail');
