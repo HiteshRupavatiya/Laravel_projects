@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\UserController;
+use App\Http\Helpers\Custom;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,7 +16,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    // echo message("Hello"); // Functions based Helper
+    // echo Custom::uppercase('hello'); // Class based Helper
     return view('welcome');
 });
 
-Route::get('user/{id}',[UserController::class,'getUser'])->name('user.details');
+Route::get('user/{id}', [UserController::class, 'getUser'])->name('user.details');
