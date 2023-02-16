@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Traits\QueryTrait;
 use Illuminate\Support\Str;
 use App\Models\User;
+use Faker\Core\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -54,5 +55,11 @@ class UserController extends Controller
     {
         $downloadpath = public_path() . '/images/' . $path;
         return response()->download($downloadpath);
+    }
+
+    public function delete_image($path)
+    {   
+        $deletePath = public_path() . '/images/' . $path;
+        return redirect()->back();
     }
 }

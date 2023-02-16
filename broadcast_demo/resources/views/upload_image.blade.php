@@ -80,6 +80,7 @@
                         <th>Email</th>
                         <th>Password</th>
                         <th>Profile Image</th>
+                        <th colspan="2">Actions</th>
                     </tr>
                     @foreach ($users as $user)
                         <tr>
@@ -87,11 +88,14 @@
                             <td>{{ $user->email }}</td>
                             <td class="text-center">{{ $user->password }}</td>
                             <td>
-                                <a href="{{ route('userImage.download', $user->image) }}">
-                                    <img src="{{ asset('/images/' . '' . $user->image) }}"
-                                        style="justify-content: center" alt="" srcset="" height="50"
-                                        width="50">
-                                </a>
+                                <img src="{{ asset('/images/' . '' . $user->image) }}" style="justify-content: center"
+                                    alt="" srcset="" height="50" width="50">
+                            </td>
+                            <td>
+                                <a href="{{ route('userImage.download', $user->image) }}">Download</a>
+                            </td>
+                            <td>
+                                <a href="{{ route('userImage.delete',$user->image) }}" class="btn btn-danger">Destroy</a>
                             </td>
                         </tr>
                     @endforeach
