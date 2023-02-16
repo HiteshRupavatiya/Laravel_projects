@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -47,5 +48,11 @@ class UserController extends Controller
         $user->save();
 
         return redirect()->route('user.index')->withSuccess("Image Uploaded Successfully...");
+    }
+
+    public function download_image($path)
+    {
+        $downloadpath = public_path() . '/images/' . $path;
+        return response()->download($downloadpath);
     }
 }

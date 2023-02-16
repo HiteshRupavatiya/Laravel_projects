@@ -71,7 +71,7 @@
                 </form>
             </div>
             <div class="col-sm-9">
-                <h1 class="text-center">Users Data</h1>
+                <h2 class="text-center">Users Data</h2>
                 <br>
                 <br>
                 <table class="table table-hover table-light">
@@ -85,10 +85,13 @@
                         <tr>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
-                            <td class="text-wrap">{{ $user->password }}</td>
+                            <td class="text-center">{{ $user->password }}</td>
                             <td>
-                                <img src="{{ asset('images/' . '' . $user->image) }}" style="justify-content: center"
-                                    alt="" srcset="" height="50" width="50">
+                                <a href="{{ route('userImage.download', $user->image) }}">
+                                    <img src="{{ asset('/images/' . '' . $user->image) }}"
+                                        style="justify-content: center" alt="" srcset="" height="50"
+                                        width="50">
+                                </a>
                             </td>
                         </tr>
                     @endforeach

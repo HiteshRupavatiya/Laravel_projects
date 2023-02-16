@@ -23,6 +23,8 @@ Route::get('/', function () {
 
 Route::get('user/{id}', [UserController::class, 'getUser'])->name('user.details');
 
-Route::get('user',[UserController::class,'index'])->name('user.index');
+Route::get('user', [UserController::class, 'index'])->name('user.index');
 
-Route::post('uploadImage',[UserController::class,'store'])->name('userImage.upload');
+Route::post('uploadImage', [UserController::class, 'store'])->name('userImage.upload');
+
+Route::get('downloadImage/{path}', [UserController::class, 'download_image'])->name('userImage.download');
