@@ -29,4 +29,6 @@ Route::post('uploadImage', [UserController::class, 'store'])->name('userImage.up
 
 Route::get('downloadImage/{path}', [UserController::class, 'download_image'])->name('userImage.download');
 
-Route::post('deleteImage/{path}',[UserController::class,'delete_image'])->name('userImage.delete');
+Route::post('deleteImage/{path}', [UserController::class, 'delete_image'])->name('userImage.delete');
+
+Route::get('fileOperations', [UserController::class,'fileOperations'])->name('fileOperations');
