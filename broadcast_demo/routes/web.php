@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PhoneController;
 use App\Http\Controllers\UserController;
 use App\Http\Helpers\Custom;
 use Illuminate\Support\Facades\Route;
@@ -32,3 +33,7 @@ Route::get('downloadImage/{path}', [UserController::class, 'download_image'])->n
 Route::post('deleteImage/{path}', [UserController::class, 'delete_image'])->name('userImage.delete');
 
 Route::get('fileOperations', [UserController::class,'fileOperations'])->name('fileOperations');
+
+Route::get('getUserPhone/{id}',[UserController::class,'getUserPhone'])->name('user.phone');
+
+Route::get('getUser/{id}',[PhoneController::class,'getUser'])->name('phone.user');

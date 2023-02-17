@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Traits\QueryTrait;
+use App\Models\Phone;
 use Illuminate\Support\Str;
 use App\Models\User;
 use Faker\Core\File;
@@ -134,5 +135,10 @@ class UserController extends Controller
         Storage::deleteDirectory('abc'); // deletes an directory on storage/app/
 
         return $file;
+    }
+
+    public function getUserPhone($id){
+        $phone = User::find($id)->phone;
+        return $phone;
     }
 }
