@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PhoneController;
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Helpers\Custom;
 use Illuminate\Support\Facades\Route;
@@ -37,3 +39,7 @@ Route::get('fileOperations', [UserController::class,'fileOperations'])->name('fi
 Route::get('getUserPhone/{id}',[UserController::class,'getUserPhone'])->name('user.phone');
 
 Route::get('getUser/{id}',[PhoneController::class,'getUser'])->name('phone.user');
+
+Route::get('getComments/{id}',[PostController::class,'getPostComments'])->name('post.comment');
+
+Route::get('getPost/{id}',[CommentController::class,'getPostFromComments'])->name('comment.post');
